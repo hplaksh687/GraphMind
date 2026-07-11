@@ -1,9 +1,19 @@
 import os
+import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-NEO4J_URI = os.environ.get("NEO4J_URI", "").strip()
-NEO4J_USERNAME = os.environ.get("NEO4J_USERNAME", "").strip()
-NEO4J_PASSWORD = os.environ.get("NEO4J_PASSWORD", "").strip()
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "").strip()
+def get_secret(key):
+    val = os.environ.get(key, "").strip()
+    if not val:
+        try:
+            val = st.secrets.get(key, "").strip()
+        except Exception:
+            val = ""
+    return val
+
+NEO4J_URI = get_secret("NEO4J_URI")
+NEO4J_USERNAME = get_secret("NEO4J_USERNAME")
+NEO4J_PASSWORD = get_secret("NEO4J_PASSWORD")
+GROQ_API_KEY = get_secret("GROQ_API_KEY")
