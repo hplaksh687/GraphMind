@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 680px;
+                 background-color: #FFFFFF;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Albert Einstein", "label": "Albert Einstein", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "change", "label": "change", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "miracle", "label": "miracle", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "value", "label": "value", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Change", "label": "Change", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Deep Thoughts", "label": "Deep Thoughts", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Thinking", "label": "Thinking", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Miracle", "label": "Miracle", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Success", "label": "Success", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Value", "label": "Value", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Inspirational", "label": "Inspirational", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "J.K. Rowling", "label": "J.K. Rowling", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "choices", "label": "choices", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Abilities", "label": "Abilities", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Choices", "label": "Choices", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Jane Austen", "label": "Jane Austen", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "books", "label": "books", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Humor", "label": "Humor", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Aliteracy", "label": "Aliteracy", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Novel", "label": "Novel", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Marilyn Monroe", "label": "Marilyn Monroe", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "be-yourself", "label": "be-yourself", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Imperfection", "label": "Imperfection", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Genius", "label": "Genius", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Andr\u00e9 Gide", "label": "Andr\u00e9 Gide", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "love", "label": "love", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Love", "label": "Love", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Thomas A. Edison", "label": "Thomas A. Edison", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "failure", "label": "failure", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "Failure", "label": "Failure", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Eleanor Roosevelt", "label": "Eleanor Roosevelt", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "simile", "label": "simile", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Steve Martin", "label": "Steve Martin", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "humor", "label": "humor", "shape": "dot", "size": 16}, {"borderWidth": 2, "color": "#2563EB", "font": {"color": "#1E293B"}, "id": "Quotes to Scrape", "label": "Quotes to Scrape", "shape": "dot", "size": 22}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "deep-thoughts", "label": "deep-thoughts", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "thinking", "label": "thinking", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "world", "label": "world", "shape": "dot", "size": 16}, {"borderWidth": 1, "color": "#059669", "font": {"color": "#1E293B"}, "id": "inspirational", "label": "inspirational", "shape": "dot", "size": 16}]);
+                  edges = new vis.DataSet([{"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "said", "title": "said", "to": "change", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "said", "title": "said", "to": "miracle", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "said", "title": "said", "to": "value", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "said", "title": "said", "to": "Change", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "related to", "title": "related to", "to": "Deep Thoughts", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "related to", "title": "related to", "to": "Thinking", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "said", "title": "said", "to": "Miracle", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "related to", "title": "related to", "to": "Success", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "said", "title": "said", "to": "Value", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Albert Einstein", "label": "related to", "title": "related to", "to": "Inspirational", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "J.K. Rowling", "label": "said", "title": "said", "to": "choices", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "J.K. Rowling", "label": "related to", "title": "related to", "to": "Abilities", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "J.K. Rowling", "label": "said", "title": "said", "to": "Choices", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Jane Austen", "label": "said", "title": "said", "to": "books", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Jane Austen", "label": "said", "title": "said", "to": "Humor", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Jane Austen", "label": "related to", "title": "related to", "to": "Aliteracy", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Jane Austen", "label": "said", "title": "said", "to": "Novel", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Marilyn Monroe", "label": "said", "title": "said", "to": "be-yourself", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Marilyn Monroe", "label": "related to", "title": "related to", "to": "Imperfection", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Marilyn Monroe", "label": "said", "title": "said", "to": "Genius", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Andr\u00e9 Gide", "label": "said", "title": "said", "to": "love", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Andr\u00e9 Gide", "label": "said", "title": "said", "to": "Love", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Andr\u00e9 Gide", "label": "related to", "title": "related to", "to": "Inspirational", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Thomas A. Edison", "label": "said", "title": "said", "to": "failure", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Thomas A. Edison", "label": "said", "title": "said", "to": "Failure", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Thomas A. Edison", "label": "related to", "title": "related to", "to": "Inspirational", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Eleanor Roosevelt", "label": "said", "title": "said", "to": "simile", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Eleanor Roosevelt", "label": "compared to", "title": "compared to", "to": "Love", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Eleanor Roosevelt", "label": "related to", "title": "related to", "to": "Inspirational", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Steve Martin", "label": "said", "title": "said", "to": "humor", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Steve Martin", "label": "said", "title": "said", "to": "Humor", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Steve Martin", "label": "related to", "title": "related to", "to": "Inspirational", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Albert Einstein", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "J.K. Rowling", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Jane Austen", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Marilyn Monroe", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Andr\u00e9 Gide", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Thomas A. Edison", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Eleanor Roosevelt", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "Steve Martin", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "deep-thoughts", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "thinking", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "world", "width": 1.5}, {"color": "#CBD5E1", "font": {"color": "#64748B", "size": 9}, "from": "Quotes to Scrape", "label": "contains", "title": "contains", "to": "inspirational", "width": 1.5}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "stabilization": {"iterations": 80}}, "interaction": {"hover": true, "navigationButtons": true, "keyboard": true}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>
